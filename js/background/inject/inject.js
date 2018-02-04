@@ -61,6 +61,20 @@ $j(document).ready(function () {
 			if(login.hasOwnProperty('custom_fields')&&login.custom_fields.length){
 				/* yes we do, iterate over all the custom_fields values */
 				for(var i=0,len=login.custom_fields.length;i<len;i++){
+					
+					if(login.custom_fields[i].label=="removeFormEvents"){
+						// remove all event handlers on all forms by removeing the original and inserting a copy
+						document.querySelectorAll('form').forEach(function(form){
+							var formCopy;
+	    						var formLocation;
+							
+							formCopy = form.cloneNode(true);
+							formLocation = form.previousElementSibling;
+							form.remove();
+							formLocation.insertAdjacentElement("afterend", formCopy);
+						});
+					}
+					
 					/* does this custom field label begin with a hash? */
 					if(customFieldPattern.test(login.custom_fields[i].label)){
 						/* set variable elementid to whatever element we are trying to auto fill */
